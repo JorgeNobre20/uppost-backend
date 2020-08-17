@@ -1,0 +1,21 @@
+{
+  "name": "up_post",
+  "version": "1.0.0",
+  "description": "post application backend",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "ts-node-dev src/server.ts --respawn --transpilyOnly --ignore-watch node_modules"
+  },
+  "keywords": [],
+  "author": "Jorge Nobre",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "morgan": "^1.10.0",
+    "ts-node-dev": "^1.0.0-pre.57",
+    "typescript": "^3.9.7"
+  }
+}
