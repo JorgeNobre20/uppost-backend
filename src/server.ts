@@ -1,8 +1,12 @@
-import express, { Request, Response, response } from "express";
+import express from "express";
+import morgan from "morgan";
+
+import routes from "./routes";
+
 const app = express();
 
-app.get("/", (req: Request,res: Response) => {
-    return res.send({ message: "Hello World" });
-});
+app.use(express.json());
+app.use(morgan("common"));
+app.use(routes);
 
 app.listen(3333,() => console.log("Server running..."));
