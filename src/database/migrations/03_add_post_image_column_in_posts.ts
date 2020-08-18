@@ -2,7 +2,7 @@ import Knex from "knex";
 
 export async function up(knex: Knex){
     return knex.schema.alterTable("posts", (table) => {
-        table.string("post_image").notNullable();
+        table.string("post_image");
     })
 }
 

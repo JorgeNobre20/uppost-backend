@@ -40,4 +40,4 @@ class UsersController{
 
 }
 
-export default new UsersController;
+export default new UsersController();
