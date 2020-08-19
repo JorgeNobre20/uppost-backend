@@ -23,6 +23,14 @@ class PostsController{
 
     }   
 
+    async index(req: Request, res: Response){
+
+        const posts = await db("posts").join("users", "posts.user_id", "=", "users.id").select(["users.username","users.profile","posts.*"]);
+        
+        return res.status(200).json(posts)
+
+    }
+
 }
 
 export default new PostsController();

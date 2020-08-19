@@ -8,5 +8,6 @@ routes.post("/users",usersController.store);
 routes.get("/users",usersController.index);
 
 routes.post("/posts", postsController.store);
+routes.get("/posts", postsController.index);
 
 export default routes;
