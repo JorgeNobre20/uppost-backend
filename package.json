@@ -4,7 +4,7 @@
   "description": "post application backend",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts --respawn --transpilyOnly --ignore-watch node_modules",
+    "dev": "ts-node-dev src/server.ts --respawn --transpily-only --ignore-watch node_modules",
     "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
     "knex:migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback"
   },
