@@ -1,6 +1,18 @@
 import { Request, Response } from "express";
 import db from "../database/connection";
 
+interface IUser{
+    user_id: string;
+    username: string;
+    profile: string;
+    postTotal: number; 
+}
+
+interface IPost{
+    post_id: number;
+    user_id: number;
+}
+
 class UsersController{
 
     async store(req: Request, res: Response){
@@ -34,8 +46,35 @@ class UsersController{
     }
 
     async index(req: Request, res: Response){
-        const users = await db("users");
-        return res.json(users);
+        
+        try{
+            
+            const users = await db("users").select<IUser[]>(["*","users.id as user_id"]);
+            const posts = await db("posts").select<IPost[]>(["id as post_id","user_id"]);   
+
+            users.map( (user) => {
+
+                let total = 0;
+                
+                posts.map( post => {
+                    if(Number(post.user_id) === Number(user.user_id)){
+                        total++;
+                    }
+                });         
+
+                user.postTotal = total;
+
+            } );
+            
+            return res.status(200).json(users);
+
+        }catch(err){
+
+            return res.status(404).json({ error: err });
+        
+        }
+
+
     }
 
 }
