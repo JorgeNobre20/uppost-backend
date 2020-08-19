@@ -8,7 +8,7 @@ class PostsController{
         
         const user_id = req.body.user_id as number;
         const description = req.body.description as string;
-        const post = req.headers.file as string;
+        const post = req.file.filename as string;
 
         if(!user_id || !description || !post){
             return res.status(400).json({ error: "creating a new post error" });
