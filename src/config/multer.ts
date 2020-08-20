@@ -46,3 +46,38 @@ export const postUpload = {
     } // Definindo tiposa aceitos na aplicação
 
 };
+
+export const profileUpload = {
+    dest: path.resolve(__dirname, "..", "..", "upload", "profiles"),
+
+    storage: multer.diskStorage({
+        destination: (req: Express.Request, file: Express.Multer.File, cb: Function) => {
+            cb(null, path.resolve(__dirname, "..", "..", "upload", "profiles"));
+        },
+        filename: (req: Express.Request, file: Express.Multer.File, cb: Function) => {
+            crypto.randomBytes(16, (err, hash) => {
+                
+                if(err){
+                    cb(err,file.filename);
+                }  
+
+                const fileName = `${hash.toString("hex")}-${file.originalname}`;
+                cb(null,fileName);
+            })
+        }
+    }),
+
+    limits: {
+        fileSize: 3 * 1024 * 1024
+    },
+
+    fileFilter: (req: Express.Request, file: Express.Multer.File, cb: Function) => {
+        const allowedImages = ["image/jpeg","image/png","image/pjpeg","image/gif"];
+
+        if(allowedImages.includes(file.mimetype)){
+            cb(null,true);
+        }else{
+            cb(new Error("Invalid file type"));
+        }   
+    }
+}

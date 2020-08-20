@@ -1,4 +1,7 @@
 import { Request, Response } from "express";
+import path from "path";
+import fs from "fs";
+
 import db from "../database/connection";
 
 interface IUser{
@@ -74,6 +77,44 @@ class UsersController{
         
         }
 
+
+    }
+
+    async updateProfile(req: Request, res: Response){
+
+        const profile = req.file.filename as string;
+        const userId = req.body.user_id as Number;
+
+        if(!userId || !profile){
+            return res.status(400).json({ error: "creating a new post error" });
+        }
+
+        try{
+
+            const [user] = await db("users").where("id","=",userId).select<IUser[]>("*");
+            
+            if(user.profile === "default_profile.svg"){
+
+                await db("users").update({ profile }).where("id","=",userId);
+                return res.status(200).json({});
+
+            }else{
+
+                fs.unlink(path.resolve(__dirname, "..", "..", "upload", "profiles", user.profile), async (err) => {
+                    if(err){
+                        return res.status(400).json({ error: err })
+                    }
+                });
+
+                await db("users").update({ profile }).where("id","=",userId);
+                
+                return res.status(200).json({});
+            }
+            
+
+        }catch(err){
+            return res.status(404).json({ error: err });
+        }
 
     }
 
